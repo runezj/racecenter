@@ -3,7 +3,8 @@
 var min_gap = 4;
 var max_slow_speed = 5;
 var gc = ',1,11,22,65,73,81,91,111,125,161,124,18,188,162,54,125,172,'; 
-var green = ',12,34,45,55,71,83,95,101,103,105,132,143,151,171,198,208,216,221,163,222,64,48,192177,53,58,47,';
+var green = ',12,34,55,71,83,95,101,103,105,132,143,151,171,198,208,216,221,163,222,64,48,192,';
+var dk = ',2,18,52,58,147,115,116,45,181,176,';
 var mylist = ',100,20,30,';
 var mycolor = '#ff4500';
 
@@ -145,7 +146,7 @@ toggle_pause = function() {
 
 
 var style = document.createElement('style');
-style.innerHTML = '.group {border-bottom: 2px solid #ba4a19; margin-bottom: 3px; font-size: 11px; color: #333} .gc div { background-color: #ff0; border: 1px solid #ffb700; } .green div { background-color: #45AE51; color: #fff}  .mylist div { background-color: '+ mycolor +'; color: #fff}  .slow div {color: #fff; background-color: #000} .team {color:#fff; background-color: #ba4a19; } #q-app {padding: 10px} #pause {font-size: 48px;} .group div div { padding-left: 2px; padding-right: 2px;} #toolbar { display: flex; background: #fee5d9; padding: 10px; border-bottom: 2px solid #ba4a19; align-items: center } #toolbar > img { width: 72px; } #jerseyWrapper { display: flex;margin: auto; align-items: center; } .row { justify-content: center; } .selected { background: #ffa47b; } .fas { color: #ba4a19; } .row>.col-md-2 { padding: 2px 5px } .teamJersey:hover { background: #ffa47b; } #toolbar .distance { padding-left: 10px; font-size: 24px } #jerseyWrapper a {width: 3.9%} #jerseyWrapper img {max-width:100%}';
+style.innerHTML = '.group {border-bottom: 2px solid #ba4a19; margin-bottom: 3px; font-size: 11px; color: #333} .gc div { background-color: #ff0; border: 1px solid #ffb700; } .dk div {background-color: #ff0000; color: #00ffff} .green div { background-color: #45AE51; color: #fff}  .mylist div { background-color: '+ mycolor +'; color: #fff}  .slow div {color: #fff; background-color: #000} .team {color:#fff; background-color: #ba4a19; } #q-app {padding: 10px} #pause {font-size: 48px;} .group div div { padding-left: 2px; padding-right: 2px;} #toolbar { display: flex; background: #fee5d9; padding: 10px; border-bottom: 2px solid #ba4a19; align-items: center } #toolbar > img { width: 72px; } #jerseyWrapper { display: flex;margin: auto; align-items: center; } .row { justify-content: center; } .selected { background: #ffa47b; } .fas { color: #ba4a19; } .row>.col-md-2 { padding: 2px 5px } .teamJersey:hover { background: #ffa47b; } #toolbar .distance { padding-left: 10px; font-size: 24px } #jerseyWrapper a {width: 3.9%} #jerseyWrapper img {max-width:100%}';
 document.head.appendChild(style);
 
 // html
@@ -210,12 +211,15 @@ function start_listening() {
 			if (mylist.includes(',' + rider.Bib + ',')) {
                             extra_class += ' mylist'
                         }
+			if (dk.includes(',' + rider.Bib + ',')) {
+				extra_class += ' dk';
+			}
                     } else {
                         //
                         if (peloton[rider.Bib].$team.split(':')[1] == selected_team) extra_class += ' team';
                     }
                     if (speed < max_slow_speed) extra_class = 'slow';
-                    html += '<div title="Speed: ' + speed + 'km/h | Average Speed: ' + speedAvg + 'km/h | ' + rider.kmToFinish + 'km to go" class="col-md-2 ' + extra_class + '"><div>' + peloton[rider.Bib].lastnameshort + ' ' + peloton[rider.Bib].firstname + ' ' + prety_time(gap) + '</div></div>';
+                    html += '<div title="Speed: ' + speed + 'km/h ' + rider.kmToFinish + 'km to go" class="col-md-2 ' + extra_class + '"><div>' + peloton[rider.Bib].lastnameshort + ' ' + peloton[rider.Bib].firstname + ' (' + rider.Bib + ') ' + prety_time(gap) + '</div></div>';
                     if (gap > 0) previous_gap = gap;
                 }
                 document.getElementById("rows").innerHTML = html + '</div>';
